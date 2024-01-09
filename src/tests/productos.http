@@ -1,0 +1,31 @@
+### GET Productos
+GET http://localhost:5000/api/v1/productos
+
+### Get Producto by id
+GET http://localhost:5000/api/v1/productos/7
+
+### POST producto
+POST http://localhost:5000/api/v1/productos
+Content-Type: application/json
+
+{
+  "nombre" : "nombre9",
+  "descripcion": "descripcion9",
+  "imagen": "imagen9",
+  "precio": 142.77,
+  "stock": true
+}
+
+### UPDATE Product
+PUT http://localhost:5000/api/v1/productos/9
+Content-Type: application/json
+
+{
+  "nombre": "Lucy Heartfilia",
+  "descripcion": "Fairy Tail Fanart",
+  "imagen": "https://i.pinimg.com/736x/13/82/43/138243ffb07290e9bd1a1d612a929e7e.jpg",
+  "stock": true
+}
+
+### DELETE Product
+DELETE http://localhost:5000/api/v1/productos/10
