@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { deleteItem, getAllItems, getItem, postItem, updateItem } from "../services/products.service";
 import { sendError, sendSuccess } from "../utils/handleMessage";
 import { validatePartialProduct, validateProduct } from "../schemas/product";
+import { Producto } from "../interfaces/products";
 
 export const getAllProducts = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -26,13 +27,21 @@ export const getProduct = async ({ params }: Request, res: Response): Promise<vo
   }
 }
 
-export const postProduct = async ({ body }: Request, res: Response): Promise<void> => {
+export const postProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const result = validateProduct(body)
+    const producto: Producto = {
+      nombre: String(req.body.nombre),
+      descripcion: String(req.body.descripcion),
+      imagen: String(req.file?.filename),
+      precio: Number(req.body.precio),
+      stock: Boolean(req.body.stock)
+    }
+    console.log(producto)
+    const result = validateProduct(producto)
     if (!result.success) {
       sendError(res, JSON.parse(result.error.message))
     } else {
-      const response = await postItem(body)
+      const response = await postItem(producto)
       if (response) {
         sendSuccess(res, response, 201, 'Producto Creado')
       } else {
@@ -43,16 +52,27 @@ export const postProduct = async ({ body }: Request, res: Response): Promise<voi
     sendError(res)
   }
 }
-
+/*!
+validad
+*/
 export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const result = validatePartialProduct(req.body)
+    const producto: Producto = {
+      nombre: String(req.body.nombre),
+      descripcion: String(req.body.descripcion),
+      imagen: String(req.file?.filename),
+      precio: Number(req.body.precio),
+      stock: Boolean(req.body.stock)
+    }
+    console.log(req.file)
+    const result = validatePartialProduct(producto)
+    console.log(result)
     if (!result.success) {
       sendError(res, JSON.parse(result.error.message))
     } else {
-      const data = req.body
+      //const data = req.body
       const id = Number(req.params['id'])
-      const responseItem = await updateItem(data, id)
+      const responseItem = await updateItem(producto, id)
       if (responseItem) {
         sendSuccess(res, responseItem, 200, 'Producto Modificado')
       } else {

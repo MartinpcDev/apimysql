@@ -1,6 +1,10 @@
 import { Producto } from '../interfaces/products'
 import z from 'zod'
 
+// const MAX_UPLOAD_SIZE = 5000000
+// const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+
 const productSchema = z.object({
   nombre: z
     .string({
@@ -25,13 +29,7 @@ const productSchema = z.object({
       message: 'La descripcion debe tener un maximo de 255 caracteres'
     }),
   imagen: z
-    .string({
-      invalid_type_error: 'La url de la imagen debe ser un string',
-      required_error: 'La url de la imagen es requerida'
-    })
-    .url({
-      message: 'URL invalido'
-    }),
+    .custom<File>(),
   precio: z
     .number({
       invalid_type_error: 'El precio tiene que ser un numero',
