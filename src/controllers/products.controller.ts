@@ -36,7 +36,6 @@ export const postProduct = async (req: Request, res: Response): Promise<void> =>
       precio: Number(req.body.precio),
       stock: Boolean(req.body.stock)
     }
-    console.log(producto)
     const result = validateProduct(producto)
     if (!result.success) {
       sendError(res, JSON.parse(result.error.message))
@@ -57,22 +56,12 @@ validad
 */
 export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const producto: Producto = {
-      nombre: String(req.body.nombre),
-      descripcion: String(req.body.descripcion),
-      imagen: String(req.file?.filename),
-      precio: Number(req.body.precio),
-      stock: Boolean(req.body.stock)
-    }
-    console.log(req.file)
-    const result = validatePartialProduct(producto)
-    console.log(result)
+    const result = validatePartialProduct(req.body)
     if (!result.success) {
       sendError(res, JSON.parse(result.error.message))
     } else {
-      //const data = req.body
       const id = Number(req.params['id'])
-      const responseItem = await updateItem(producto, id)
+      const responseItem = await updateItem(req.body, id)
       if (responseItem) {
         sendSuccess(res, responseItem, 200, 'Producto Modificado')
       } else {
