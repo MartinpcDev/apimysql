@@ -1,10 +1,6 @@
 import { Producto } from '../interfaces/products'
 import z from 'zod'
 
-// const MAX_UPLOAD_SIZE = 5000000
-// const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-
-
 const productSchema = z.object({
   nombre: z
     .string({
